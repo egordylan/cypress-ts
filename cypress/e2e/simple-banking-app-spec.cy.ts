@@ -1,9 +1,13 @@
 import { faker } from '@faker-js/faker'
+import landingPage from '../support/pageObjects/landingPage'
 
 describe('Check the simple banking application', () => {
     it('Create and verify customers account', () => {
         //invoke application
-        cy.visit('https://www.way2automation.com/angularjs-protractor/banking/#/login')
+        //verify bank name
+        landingPage
+            .invokeApp()
+            .verifyBankName('XYZ Bank')
         //login as a manager
         cy.contains('Bank Manager Login').click()
         //select customer table
@@ -44,9 +48,68 @@ describe('Check the simple banking application', () => {
         //navigate to Open Account
         //open account to a customer
         const fullName: string = 'Ken Kaneki'
+        //Rupee
+        cy.get('button').contains('Open Account').click()
+        cy.get('#userSelect').select(fullName)
+        cy.get('#currency').select('Rupee')
+        cy.get('[type="submit"]').contains('Process').click()
+        //Dollar
         cy.get('button').contains('Open Account').click()
         cy.get('#userSelect').select(fullName)
         cy.get('#currency').select('Dollar')
         cy.get('[type="submit"]').contains('Process').click()
+        //Pound
+        cy.get('button').contains('Open Account').click()
+        cy.get('#userSelect').select(fullName)
+        cy.get('#currency').select('Pound')
+        cy.get('[type="submit"]').contains('Process').click()
+    })
+
+    it('Landing Page verifications', () => {
+        //common tests:
+        //verify tooltip across pages
+
+        //Bank Manager Home page:
+        //Bank name, Home page should be visible
+        //Add Customer, Open Account, Customers should be visible
+        //selected tab should be highlighted
+
+        //Customer Page:
+        //on creating customer details should be displayd
+        //search customer
+        //delete customer
+        //first name, last name, post code, account numbers, delete customer labels should be displayed
+        //account numbers should be appended on adding accounts for the same customer
+        //sorting customers by first name, last name, post code
+
+        //add customer:
+        //verify that labels are displayed
+        //verify mandatory fields
+        //add 10 customers
+        //verify pop-up (success) on adding customer
+
+        //open account:
+        //added customer should be loaded into customer dropdown
+        //currency should have dollar, pound, rupie
+        //verify mandatory fields
+        //verify pop-up (success message)
+        
+        //customer loging page:
+        //should have list of customers in the dropdown
+        //verify login in
+
+        //customer home page:
+        //labels should be displayed (Account number, Balance, Currency)
+        //welcome message
+        //list of accounts
+        //list of transactions should be displayed
+        //change account > change currency
+        //log out should be displayed
+
+        //customer transaction:
+        //list of transactions should be displayed
+        //sorting date-time
+        //dropdown
+
     })
 })
